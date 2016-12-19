@@ -15,16 +15,16 @@ import Data.Vinyl.Functor
 -- | A Peano index provides a constructive proof that the type-level list @rs@
 -- contains the type @r@.
 data RIndex (rs :: [k]) (r :: k) where
-  Z :: RIndex (r ': rs) r
-  S :: RIndex rs r -> RIndex (s ': rs) r
+  RIndexZ :: RIndex (r ': rs) r
+  RIndexS :: RIndex rs r -> RIndex (s ': rs) r
 
 rlensIx
   :: Functor g
   => RIndex rs r
   -> (f r     -> g (f r))
   -> Rec f rs -> g (Rec f rs)
-rlensIx Z f (r:&rs) = fmap (:& rs) (f r)
-rlensIx (S ix) f (r:&rs) = fmap (r :&) (rlensIx ix f rs)
+rlensIx RIndexZ f (r:&rs) = fmap (:& rs) (f r)
+rlensIx (RIndexS ix) f (r:&rs) = fmap (r :&) (rlensIx ix f rs)
 {-# INLINABLE rlensIx #-}
 
 rgetIx :: RIndex rs r -> Rec f rs -> f r
@@ -57,9 +57,9 @@ rlenseIxs ixs = lens (rgetIxs ixs) (rputIxs ixs)
     lens sa sbt afb s = fmap (sbt s) $ afb (sa s)
 
 class RElem (r :: k) (rs :: [k]) where relemIndex :: RIndex rs r
-instance {-# OVERLAPPING #-} r `RElem` (r ': rs) where relemIndex = Z
+instance {-# OVERLAPPING #-} r `RElem` (r ': rs) where relemIndex = RIndexZ
 instance {-# OVERLAPPABLE #-} (r `RElem` rs)
-  => r `RElem` (r' ': rs) where relemIndex = S relemIndex
+  => r `RElem` (r' ': rs) where relemIndex = RIndexS relemIndex
 
 rlens
   :: (RElem r rs , Functor g)
