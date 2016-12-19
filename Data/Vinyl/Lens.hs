@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE TypeOperators         #-}
 
-module Data.Vinyl.Index where
+module Data.Vinyl.Lens where
 
 import Data.Vinyl.Core
 import Data.Vinyl.Functor
