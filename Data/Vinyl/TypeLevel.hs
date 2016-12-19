@@ -13,6 +13,10 @@ module Data.Vinyl.TypeLevel where
 
 import GHC.Exts
 
+-- | A mere approximation of the natural numbers. And their image as lifted by
+-- @-XDataKinds@ corresponds to the actual natural numbers.
+data Nat = Z | S !Nat
+
 -- | A constraint-former which applies to every field in a record.
 type family RecAll (f :: u -> *) (rs :: [u]) (c :: * -> Constraint) :: Constraint where
   RecAll f '[] c = ()
@@ -22,4 +26,3 @@ type family RecAll (f :: u -> *) (rs :: [u]) (c :: * -> Constraint) :: Constrain
 type family (as :: [k]) ++ (bs :: [k]) :: [k] where
   '[] ++ bs = bs
   (a ': as) ++ bs = a ': (as ++ bs)
-
