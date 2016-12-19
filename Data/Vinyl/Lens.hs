@@ -9,6 +9,7 @@
 
 module Data.Vinyl.Lens where
 
+import Data.Coerce
 import Data.Vinyl.Core
 import Data.Vinyl.Functor
 
@@ -36,7 +37,7 @@ infixl 9 !
 (!) = flip rgetIx
 
 rputIx :: RIndex rs r -> f r -> Rec f rs -> Rec f rs
-rputIx ix r = getIdentity . rlensIx ix (\_ -> Identity r)
+rputIx ix r = coerce . rlensIx ix (\_ -> Identity r)
 {-# INLINABLE rputIx #-}
 
 -- | specializes as composition of records of indices
