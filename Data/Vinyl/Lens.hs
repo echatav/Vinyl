@@ -99,16 +99,16 @@ rreplace = rputIxs rsubIndices
 type REquivalent rs ss = (RSubset rs ss, RSubset ss rs)
 
 -- | A shorthand for 'RElem' which supplies its index.
-type r ∈ rs = RElem r rs
+type (∈) = RElem
 
 -- | A shorthand for 'RSubset' which supplies its image.
-type rs ⊆ ss = RSubset rs ss
+type (⊆) = RSubset
 
 -- | A shorthand for 'REquivalent' which supplies its images.
 type rs ≅ ss = REquivalent rs ss
 
 -- | A non-unicode equivalent of @(⊆)@.
-type rs <: ss = rs ⊆ ss
+type (<:) = (⊆)
 
 -- | A non-unicode equivalent of @(≅)@.
 type rs :~: ss = rs ≅ ss
