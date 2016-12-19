@@ -39,10 +39,6 @@ rputIx :: RIndex rs r -> f r -> Rec f rs -> Rec f rs
 rputIx ix r = getIdentity . rlensIx ix (\_ -> Identity r)
 {-# INLINABLE rputIx #-}
 
-class Rid rs where rid :: Rec (RIndex rs) rs
-instance Rid '[] where rid = RNil
-instance Rid rs => Rid (r ': rs) where rid = Z :& rmap S rid
-
 -- | specializes as composition of records of indices
 rgetIxs :: Rec (RIndex rs) ss -> Rec f rs -> Rec f ss
 rgetIxs ixs rec = rmap (rec !) ixs
